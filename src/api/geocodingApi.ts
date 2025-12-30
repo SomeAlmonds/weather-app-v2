@@ -10,30 +10,33 @@ import type { RootStateType } from "../store";
 // The API doesn't have options to fetch partial data about the locations so it returns some useless data in this case
 
 // the type of endpoint response data is placeObj[]
+
+// According to open meteo docs "Empty fields are not returned. E.g. admin4 will be missing if no fourth administrative level is available."
+// therefore some properties in the interface are optional to avoid possible errors
+// source:  https://open-meteo.com/en/docs/geocoding-api?name=new#json_return_object
 interface placeObj {
   id: number;
   name: string;
   latitude: number;
   longitude: number;
   elevation: number;
-  feature_code: string;
-  country_code: string;
-  admin1_id: number;
-  admin2_id: string;
-  admin3_id: number;
-  admin4_id: number;
+  feature_code?: string;
+  country_code?: string;
+  admin1_id?: number;
+  admin2_id?: string;
+  admin3_id?: number;
+  admin4_id?: number;
   timezone: string;
-  population: number;
-  postcodes: string[];
+  population?: number;
+  postcodes?: string[];
   country_id: number;
   country: string;
   admin1: string;
-  admin2: string;
-  admin3: string;
-  admin4: string;
+  admin2?: string;
+  admin3?: string;
+  admin4?: string;
 }
 
-// https://geocoding-api.open-meteo.com/v1/search?name=Berlin&count=10&language=en&format=json
 const axios_instance = axios.create({
   baseURL: "https://geocoding-api.open-meteo.com/v1/",
 });
@@ -44,7 +47,7 @@ export const fetchPlaces = createAsyncThunk(
     const res = await axios_instance.get("/search", {
       params: {
         name,
-        count: 5,
+        count: 10,
         language: "en",
         format: "json",
       },
@@ -53,15 +56,9 @@ export const fetchPlaces = createAsyncThunk(
   }
 );
 
-
-        ///////////////////////////////////////////////////////////
-        ///////////////////////////////////////////////////////////
-        
-        /////START THE GITHUB REPO NOW   ////////////////////////
-
-        ///////////////////////////////////////////////////////////
-        ///////////////////////////////////////////////////////////
-
+// a feature code describes the type of the location. (view: https://www.geonames.org/export/codes.html for the full list)
+// this is a list of codes to filter out any un-wanted results such as airports parks unpopulated places etc
+const feature_codes = ["PPL", "CST", "LK", "SEA"];
 
 const placesAdapter = createEntityAdapter<placeObj>();
 const initialState = placesAdapter.getInitialState();
@@ -73,9 +70,15 @@ const placesSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchPlaces.fulfilled, (state, { payload }) => {
       try {
-        placesAdapter.setAll(state, payload);
+        // filter result for relevant locations
+        const filteredList = payload.filter((obj) =>
+          feature_codes.find((code) => obj.feature_code?.includes(code))
+        );
+        console.log(filteredList);
+        
+        placesAdapter.setAll(state, filteredList);
       } catch (error) {
-        placesAdapter.removeAll(state)
+        placesAdapter.removeAll(state);
       }
     });
   },

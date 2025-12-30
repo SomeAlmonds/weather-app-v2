@@ -25,7 +25,7 @@ export default function SearchSuggestion() {
       />
       <div>
         {places.map((place) => {
-          return <h4 key={place.id}>{place.name}</h4>;
+          return <li key={place.id}>{place.name} | {place.country}</li>;
         })}
       </div>
     </>
