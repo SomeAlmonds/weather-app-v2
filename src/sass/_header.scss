@@ -1,0 +1,102 @@
+@use "./variables" as *;
+
+.header {
+  width: 100vw;
+  height: 80px;
+  padding: 10px;
+  background-color: $main-dark;
+  background-image: linear-gradient(
+    to right,
+    rgba($main-light, 0.3),
+    transparent
+  );
+  box-shadow: 1px 0 4px rgba(0, 0, 0, 0.4);
+  z-index: 99;
+
+  * {
+    transition: 300ms;
+  }
+
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-between;
+
+  .logo {
+    display: flex;
+    flex-flow: row nowrap;
+    p {
+      color: $main-dark;
+      font-weight: bolder;
+      font-size: 1.5rem;
+      margin-right: 10px;
+
+      &:last-child {
+        font-weight: 300;
+      }
+    }
+  }
+
+  .search-input {
+    width: 500px;
+    height: 50px;
+    padding: 0 10px;
+
+    background-color: $main-dark;
+    background-image: linear-gradient(
+      to right,
+      rgba($main-light, 0.3),
+      rgba($main-light, 0.1)
+    );
+
+    border: none;
+    border-radius: $border-radius;
+
+    &::placeholder {
+      color: rgba($text-icons-color, 0.7);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 1.1rem;
+    }
+
+    &:focus {
+      outline: 1px solid $second-light;
+    }
+  }
+
+  .search-suggestions {
+    height: 0;
+    width: 500px;
+    position: absolute;
+    top: 70px;
+    right: 10px;
+    transition: height 300ms;
+
+    background-color: $main-dark;
+    background-image: $gradient-dark;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+
+    list-style: none;
+    overflow: hidden;
+    border-radius: $border-radius;
+
+    .suggestion-li {
+      width: auto;
+      height: 30px;
+      padding: 5px;
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+      border-top: 1px solid rgba($second-light, 0.5);
+      cursor: pointer;
+
+      &:first-child {
+        border: none;
+      }
+      &:hover,
+      &:focus {
+        background-color: rgba($text-icons-color, 0.1);
+        outline: none;
+      }
+    }
+  }
+}

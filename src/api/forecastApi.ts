@@ -1,4 +1,8 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createEntityAdapter,
+  createSlice,
+} from "@reduxjs/toolkit";
 import { fetchWeatherApi } from "openmeteo";
 import type { RootStateType } from "../store";
 
@@ -29,7 +33,7 @@ export const fetchForecast = createAsyncThunk(
   async (latLng: { latitude: number; longitude: number }) => {
     const resList = await fetchWeatherApi(url, { ...params, ...latLng });
     const res = resList[0];
-    return res
+    return res;
   }
 );
 
@@ -109,6 +113,7 @@ export const fetchForecast = createAsyncThunk(
 // The 'weatherData' object now contains a simple structure, with arrays of datetimes and weather information
 
 interface WeatherDataInterface {
+  id: number;
   current: {
     time: Date;
     is_day: number;
@@ -131,9 +136,12 @@ interface WeatherDataInterface {
   };
 }
 
+const forecastAdapter = createEntityAdapter<WeatherDataInterface>();
+const initialState = forecastAdapter.getInitialState();
+
 const forecastSlice = createSlice({
   name: "forecast",
-  initialState: {} as WeatherDataInterface,
+  initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchForecast.fulfilled, (state, { payload }) => {
@@ -148,6 +156,7 @@ const forecastSlice = createSlice({
       const sunset = daily.variables(3)!;
 
       const weatherData = {
+        id: 0,
         current: {
           time: new Date((Number(current.time()) + utcOffsetSeconds) * 1000),
           is_day: current.variables(0)!.value(),
@@ -207,16 +216,19 @@ const forecastSlice = createSlice({
         },
       };
       // end of handling data
-      
-      
-      state = { ...state, ...weatherData };
-      console.log(state.daily.max_temperature);
+
+      forecastAdapter.removeAll(state);
+      forecastAdapter.addOne(state, weatherData);
+      // console.log(state);
     });
   },
 });
 
-export const selectCurrent = (state: RootStateType) => state.forecast.current;
-export const selectDaily = (state: RootStateType) => state.forecast.daily;
-export const selectHourly = (state: RootStateType) => state.forecast.hourly;
+// export const selectForecast = (state: RootStateType) => state.forecast;
+// export const selectCurrent = (state: RootStateType) => state.forecast.current;
+// export const selectDaily = (state: RootStateType) => state.forecast.daily;
+// export const selectHourly = (state: RootStateType) => state.forecast.hourly;
+
+export const { selectAll: selectForecast} = forecastAdapter.getSelectors((state: RootStateType) => state.forecast)
 
 export default forecastSlice.reducer;

@@ -1,0 +1,22 @@
+// COLORS
+$main-dark: #242652;
+$second-dark: #283c86;
+
+$main-light: #31aff2;
+$second-light: #86c7ea;
+
+$gradient-dark: linear-gradient(
+  to bottom right,
+  rgba($main-light, 0.3) 40%,
+  transparent
+);
+$gradient-light: linear-gradient(
+  to top left,
+  rgba($main-dark, 0.3) 40%,
+  transparent
+);
+
+$text-icons-color: #cae6f4;
+// //
+
+$border-radius: 8px;

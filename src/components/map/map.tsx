@@ -1,6 +1,7 @@
 import type { LatLngTuple } from "leaflet";
-import { useState } from "react";
 import { MapContainer, Marker, TileLayer, useMap } from "react-leaflet";
+import { useSelector } from "react-redux";
+import { selectLatLng } from "../../api/geocodingApi";
 
 function  SetMapView({ latLng }: { latLng: LatLngTuple }) {
   // Restests the map center and view with animation
@@ -12,14 +13,14 @@ function  SetMapView({ latLng }: { latLng: LatLngTuple }) {
 }
 
 export default function Map() {
-  const [mapCenter] = useState<LatLngTuple>([0, 0]);
+  const mapCenter = useSelector(selectLatLng);
 
   return (
     <MapContainer
       center={mapCenter}
-      zoom={13}
+      zoom={10}
       scrollWheelZoom={true}
-      style={{ height: 500, width: 500 }}
+      style={{ height: 500, width: 500, margin: 20 }}
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
