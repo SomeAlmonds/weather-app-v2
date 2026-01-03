@@ -3,7 +3,7 @@ import { MapContainer, Marker, TileLayer, useMap } from "react-leaflet";
 import { useSelector } from "react-redux";
 import { selectLatLng } from "../../api/geocodingApi";
 
-function  SetMapView({ latLng }: { latLng: LatLngTuple }) {
+function SetMapView({ latLng }: { latLng: LatLngTuple }) {
   // Restests the map center and view with animation
   const map = useMap();
   map.setView(latLng, map.getZoom(), {

@@ -65,7 +65,6 @@ interface initialStateInterface extends EntityState<placeObj, number> {
   latLng: LatLngTuple;
 }
 
-
 const placesAdapter = createEntityAdapter<placeObj>();
 const initialState: initialStateInterface = placesAdapter.getInitialState({
   latLng: [15.46, 32.55] as LatLngTuple,
