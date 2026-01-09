@@ -1,35 +1,44 @@
 import "../node_modules/leaflet/dist/leaflet.css";
-import Map from "./components/map/map";
 import Header from "./components/map/header";
-import Current from "./components/map/current";
+import Forecast from "./components/map/forecast";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchForecast } from "./api/forecastApi";
-import { selectLatLng, setLatLng } from "./api/geocodingApi";
+import { fetchForecast, fetchPlaceName } from "./api/forecastApi";
+import {  selectLatLng, setLatLng } from "./api/geocodingApi";
 import type { AppDispatchType } from "./store";
 
 function App() {
   const dispatch = useDispatch<AppDispatchType>();
-  dispatch(fetchForecast(useSelector(selectLatLng)));
+  const latlng = useSelector(selectLatLng);
 
-  // get user location
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
-      (position) => {
+      (pos) => {
         dispatch(
-          setLatLng([position.coords.latitude, position.coords.longitude])
-        );        
+          setLatLng([
+            Number(pos.coords.latitude.toFixed(2)),
+            Number(pos.coords.longitude.toFixed(2)),
+          ])
+        );
       },
-      (err) => console.warn(err)
+      (err) => {
+        console.warn(err);
+        setLatLng([15.46, 32.55]);
+      }
     );
   }, []);
-  
 
+  useEffect(() => {
+    if (latlng) {
+      dispatch(fetchForecast(latlng));
+      dispatch(fetchPlaceName(latlng));
+    }
+  }, [latlng]);
   return (
     <>
       <Header />
-      <Current />
-      <Map />
+      <Forecast />
+      {/* <Map /> */}
     </>
   );
 }

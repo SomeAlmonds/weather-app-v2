@@ -3,10 +3,12 @@ import {
   createEntityAdapter,
   createSlice,
   type EntityState,
+  type SerializedError,
 } from "@reduxjs/toolkit";
 import { fetchWeatherApi } from "openmeteo";
 import type { RootStateType } from "../store";
 import type { LatLngTuple } from "leaflet";
+import type { placeObj } from "./geocodingApi";
 
 const params = {
   daily: [
@@ -42,8 +44,22 @@ export const fetchForecast = createAsyncThunk(
   }
 );
 
+// fetch location details from latitude and longitude
+export const fetchPlaceName = createAsyncThunk(
+  "Places/fetchPlaceName",
+  async (latlng: LatLngTuple) => {
+    const res = await fetch(
+      `http://api.geonames.org/findNearbyPlaceNameJSON?lat=${latlng[0]}&lng=${latlng[1]}&username=a1mohanad`
+    ).then((res) => res.json());
+    // console.log(res.geonames[0], typeof(res));
+
+    return res.geonames[0];
+  }
+);
+
 interface WeatherDataInterface {
   id: number;
+  utcOffsetSeconds: number;
   current: {
     time: Date;
     is_day: number;
@@ -69,7 +85,9 @@ interface WeatherDataInterface {
 
 interface initialStateInterface
   extends EntityState<WeatherDataInterface, number> {
-  status: "FULFILLED" | "PENDING";
+  currentLocation: placeObj | null;
+  status: "FULFILLED" | "PENDING" | "REJECTED";
+  error: SerializedError | null;
 }
 
 const weatherCodes: { [key: number]: string } = {
@@ -106,13 +124,24 @@ weatherCodes[9];
 
 const forecastAdapter = createEntityAdapter<WeatherDataInterface>();
 const initialState: initialStateInterface = forecastAdapter.getInitialState({
+  currentLocation: null,
   status: "PENDING",
+  error: null,
 });
 
 const forecastSlice = createSlice({
   name: "forecast",
   initialState,
-  reducers: {},
+  reducers: {
+    setCurrentLocation: {
+      reducer: (state, action: { type: string; payload: placeObj }) => {
+        state.currentLocation = action.payload;
+      },
+      prepare: (location: placeObj) => {
+        return { payload: location };
+      },
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchForecast.fulfilled, (state, { payload }) => {
       // handling data according to api docs instructions
@@ -127,6 +156,7 @@ const forecastSlice = createSlice({
 
       const weatherData: WeatherDataInterface = {
         id: 0,
+        utcOffsetSeconds,
         current: {
           time: new Date((Number(current.time()) + utcOffsetSeconds) * 1000),
           is_day: current.variables(0)!.value(),
@@ -194,14 +224,37 @@ const forecastSlice = createSlice({
       };
       // end of handling data
 
-      state.status = "FULFILLED";
+      state.error = null;
 
       forecastAdapter.removeAll(state);
       forecastAdapter.addOne(state, weatherData);
+      state.status = "FULFILLED";
       // console.log(state);
+    });
+    builder.addCase(fetchForecast.pending, (state) => {
+      state.status = "PENDING";
+      state.error = null;
+    });
+    builder.addCase(fetchForecast.rejected, (state, action) => {
+      state.status = "REJECTED";
+      state.error = action.error;
+    });
+    builder.addCase(fetchPlaceName.fulfilled, (state, action) => {
+      const { adminName1, lat, lng, countryName } = action.payload;
+      state.currentLocation = {
+        id: 0,
+        name: adminName1,
+        latitude: lat,
+        longitude: lng,
+        country: countryName,
+      };
     });
   },
 });
+
+export const selectStatus = (state: RootStateType) => state.forecast.status;
+
+export const selectError = (state: RootStateType) => state.forecast.error;
 
 export const selectCurrent = (state: RootStateType) =>
   state.forecast.entities[0].current;
@@ -209,11 +262,15 @@ export const selectDaily = (state: RootStateType) =>
   state.forecast.entities[0].daily;
 export const selectHourly = (state: RootStateType) =>
   state.forecast.entities[0].hourly;
-export const selectStatus = (state: RootStateType) =>
-  state.forecast.status;
+export const selecUtcOffsetMinutes = (state: RootStateType) =>
+  state.forecast.entities[0].utcOffsetSeconds / 60;
 
 export const { selectAll: selectForecast } = forecastAdapter.getSelectors(
   (state: RootStateType) => state.forecast
 );
+
+export const selectCurrentLocation = (state: RootStateType) =>
+  state.forecast.currentLocation;
+export const { setCurrentLocation } = forecastSlice.actions;
 
 export default forecastSlice.reducer;

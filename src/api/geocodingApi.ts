@@ -16,24 +16,24 @@ import { type LatLngTuple } from "leaflet";
 // According to open meteo docs "Empty fields are not returned. E.g. admin4 will be missing if no fourth administrative level is available."
 // therefore some properties in the interface are optional to avoid possible errors
 // source:  https://open-meteo.com/en/docs/geocoding-api?name=new#json_return_object
-interface placeObj {
+export interface placeObj {
   id: number;
   name: string;
   latitude: number;
   longitude: number;
-  elevation: number;
+  elevation?: number;
   feature_code?: string;
   country_code?: string;
   admin1_id?: number;
   admin2_id?: string;
   admin3_id?: number;
   admin4_id?: number;
-  timezone: string;
+  timezone?: string;
   population?: number;
   postcodes?: string[];
-  country_id: number;
+  country_id?: number;
   country: string;
-  admin1: string;
+  admin1?: string;
   admin2?: string;
   admin3?: string;
   admin4?: string;
@@ -62,12 +62,13 @@ export const fetchPlaces = createAsyncThunk(
 // this is a list of codes to filter out any un-wanted results such as airports parks unpopulated places etc
 const feature_codes = ["PPL", "CST", "LK", "SEA"];
 interface initialStateInterface extends EntityState<placeObj, number> {
-  latLng: LatLngTuple;
+  latLng: LatLngTuple | null;
 }
 
 const placesAdapter = createEntityAdapter<placeObj>();
 const initialState: initialStateInterface = placesAdapter.getInitialState({
-  latLng: [15.46, 32.55] as LatLngTuple,
+  latLng: null, 
+  // [15.46, 32.55] as LatLngTuple,
 });
 
 const placesSlice = createSlice({
@@ -96,6 +97,7 @@ const placesSlice = createSlice({
         placesAdapter.removeAll(state);
       }
     });
+
   },
 });
 

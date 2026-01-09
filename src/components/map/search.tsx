@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import {
   fetchPlaces,
   selectAllPlaces,
-  setLatLng,
 } from "../../api/geocodingApi";
+import { setCurrentLocation } from "../../api/forecastApi";
 import { useDispatch, useSelector } from "react-redux";
 import { type AppDispatchType } from "../../store";
 
@@ -35,12 +35,7 @@ export default function SearchSuggestion() {
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key == "Enter") {
       // set latitude and longitude to use in forecast and map api
-      dispatch(
-        setLatLng([
-          places[focusedPlace.current || 0].latitude,
-          places[focusedPlace.current || 0].longitude,
-        ])
-      );
+      dispatch(setCurrentLocation(places[focusedPlace.current || 0]));
 
       // reset
 

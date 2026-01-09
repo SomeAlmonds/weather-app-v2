@@ -90,7 +90,8 @@ body {
   min-height: 100vh;
   background-color: #242652;
   background-image: linear-gradient(to bottom right, rgba(49, 175, 242, 0.3) 40%, transparent);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: #cae6f4;
 }
 
 h1 {
