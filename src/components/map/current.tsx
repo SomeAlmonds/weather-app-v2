@@ -12,20 +12,20 @@ export default function Current() {
   const daily = useSelector(selectDaily);
   const currentLocation = useSelector(selectCurrentLocation);
   const timeOffset = useSelector(selecUtcOffsetMinutes);
-  // console.log(hourly);
+
   const UtcHour = new Date().getUTCHours();
   const utcMinute = new Date().getUTCMinutes();
 
-  console.log(daily);
+  console.log(hourly);
 
-  const hourOffset = Math.floor(timeOffset / 60);
-  const minuteOffset = timeOffset % 60;
+  const hourOffset = Math.floor(timeOffset / 60) || 0;
+  const minuteOffset = (timeOffset % 60) || 0;
 
   const nowIndex = hourly.time.findIndex((i) => i.getUTCHours() == UtcHour);
   const nowHour = hourly.time[nowIndex].getHours();
   const nowMinute = utcMinute + minuteOffset;
 
-  const hourlyArray = useMemo(
+  let hourlyArray = useMemo(
     () =>
       Array.from({ length: 24 }, (_, i) => {
         return (
@@ -40,8 +40,8 @@ export default function Current() {
   );
 
   return (
-    <>
-      <div className="current-blank">
+    <div className="current">
+      <div className="current-main">
         <h1>{Math.floor(hourly.temperature![nowIndex])}</h1>
         <div className="current-extra-blank">
           <p className="current-location">{`${currentLocation?.name} | ${
@@ -60,6 +60,6 @@ export default function Current() {
         </div>
       </div>
       <div className="day-houlry">{hourlyArray}</div>
-    </>
+    </div>
   );
 }

@@ -16,18 +16,20 @@ export default function Map() {
   const mapCenter = useSelector(selectLatLng);
 
   return (
-    <MapContainer
-      center={mapCenter}
-      zoom={10}
-      scrollWheelZoom={true}
-      style={{ height: 500, width: 500, margin: 20 }}
-    >
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      <Marker position={mapCenter} />
-      <SetMapView latLng={mapCenter} />
-    </MapContainer>
+    <div className="map-div">
+      <MapContainer
+        center={mapCenter!}
+        zoom={10}
+        scrollWheelZoom={true}
+        style={{ height: 500, width: 500, margin: 20 }}
+      >
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <Marker position={mapCenter!} />
+        <SetMapView latLng={mapCenter!} />
+      </MapContainer>
+    </div>
   );
 }

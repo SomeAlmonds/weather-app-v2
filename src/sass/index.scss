@@ -1,5 +1,6 @@
 @use "./variables" as *;
-@use "./header.scss";
+@use "./header";
+@use "./body";
 
 * {
   margin: 0;

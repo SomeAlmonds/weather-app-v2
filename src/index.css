@@ -1,7 +1,7 @@
 .header {
   width: 100vw;
   height: 80px;
-  padding: 10px;
+  padding: 10px 20px;
   background-color: #242652;
   background-image: linear-gradient(to right, rgba(49, 175, 242, 0.3), transparent);
   box-shadow: 1px 0 4px rgba(0, 0, 0, 0.4);
@@ -21,7 +21,7 @@
   flex-flow: row nowrap;
 }
 .header .logo p {
-  color: #242652;
+  color: #cae6f4;
   font-weight: bolder;
   font-size: 1.5rem;
   margin-right: 10px;
@@ -76,6 +76,17 @@
 .header .search-suggestions .suggestion-li:hover, .header .search-suggestions .suggestion-li:focus {
   background-color: rgba(202, 230, 244, 0.1);
   outline: none;
+}
+
+.body {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+}
+.body > div {
+  margin: 10px;
+  background-color: #283c86;
+  background-image: linear-gradient(to bottom right, rgba(49, 175, 242, 0.3) 40%, transparent);
+  border-radius: 8px;
 }
 
 * {

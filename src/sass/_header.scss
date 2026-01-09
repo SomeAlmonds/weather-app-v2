@@ -3,7 +3,7 @@
 .header {
   width: 100vw;
   height: 80px;
-  padding: 10px;
+  padding: 10px 20px;
   background-color: $main-dark;
   background-image: linear-gradient(
     to right,
@@ -26,7 +26,7 @@
     display: flex;
     flex-flow: row nowrap;
     p {
-      color: $main-dark;
+      color: $text-icons-color;
       font-weight: bolder;
       font-size: 1.5rem;
       margin-right: 10px;

@@ -1,0 +1,15 @@
+@use "./variables" as *;
+
+.body {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(350px, 1fr)
+  );
+  & > div {
+    margin: 10px;
+    background-color: $second-dark;
+    background-image: $gradient-dark;
+    border-radius: $border-radius;
+  }
+}
