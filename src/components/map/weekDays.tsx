@@ -28,9 +28,9 @@ export default function WeekDays() {
             <div>{conditions}</div>
             <p>
               {`
-            ${Math.floor(daily.max_temperature![i])} | ${Math.floor(
+            ${Math.floor(daily.max_temperature![i])}° | ${Math.floor(
                 daily.min_temperature![i]
-              )}
+              )}°
           `}
             </p>
           </div>

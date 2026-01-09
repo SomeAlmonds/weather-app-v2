@@ -21,7 +21,6 @@ export default function Map() {
         center={mapCenter!}
         zoom={10}
         scrollWheelZoom={true}
-        style={{ height: 500, width: 500, margin: 20 }}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

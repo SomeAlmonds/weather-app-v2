@@ -19,7 +19,7 @@ export default function Current() {
   console.log(hourly);
 
   const hourOffset = Math.floor(timeOffset / 60) || 0;
-  const minuteOffset = (timeOffset % 60) || 0;
+  const minuteOffset = timeOffset % 60 || 0;
 
   const nowIndex = hourly.time.findIndex((i) => i.getUTCHours() == UtcHour);
   const nowHour = hourly.time[nowIndex].getHours();
@@ -31,7 +31,7 @@ export default function Current() {
         return (
           <div className="day-hourly-element" key={i}>
             <p>{hourly.time[nowIndex + i].getHours()}:00</p>
-            <p>{Math.floor(hourly.temperature![nowIndex + i])}</p>
+            <p>{Math.floor(hourly.temperature![nowIndex + i])}°</p>
             <p>{hourly.relative_humidity![nowIndex + i]}%</p>
           </div>
         );
@@ -40,10 +40,12 @@ export default function Current() {
   );
 
   return (
-    <div className="current">
-      <div className="current-main">
-        <h1>{Math.floor(hourly.temperature![nowIndex])}</h1>
-        <div className="current-extra-blank">
+    <>
+      <div className="current">
+        <div>
+          <h1>{Math.floor(hourly.temperature![nowIndex])}°</h1>
+        </div>
+        <div className="current-info">
           <p className="current-location">{`${currentLocation?.name} | ${
             currentLocation?.country
           } As of ${nowHour}:${
@@ -59,7 +61,9 @@ export default function Current() {
           )} Max: ${Math.floor(daily.max_temperature![0])}`}</p>
         </div>
       </div>
-      <div className="day-houlry">{hourlyArray}</div>
-    </div>
+      <div className="day-hourly">
+        {hourlyArray}
+      </div>
+    </>
   );
 }

@@ -1,15 +1,138 @@
 @use "./variables" as *;
 
 .body {
-  display: grid;
-  grid-template-columns: repeat(
-    auto-fill,
-    minmax(350px, 1fr)
-  );
+  display: flex;
+  flex-flow: row wrap;
+  padding: 0 10px;
+
   & > div {
-    margin: 10px;
-    background-color: $second-dark;
-    background-image: $gradient-dark;
-    border-radius: $border-radius;
+    max-width: 50%;
+    flex: 1;
+    display: flex;
+    flex-flow: column nowrap;
+
+    & > div {
+      min-width: 360px;
+      margin: 10px;
+      padding: 10px;
+
+      background-color: $second-dark;
+      background-image: $gradient-dark;
+      border-radius: $border-radius;
+    }
+
+    ///////////////////////////////////////////////////
+
+    .current {
+      flex: 1;
+
+      display: flex;
+      flex-flow: column nowrap;
+      justify-content: space-between;
+
+      .current-info {
+        p {
+          padding: 3px;
+
+          &:first-child {
+            font-weight: 600;
+          }
+        }
+      }
+    }
+
+    ///////////////////////////////////////////////////
+
+    .day-hourly {
+      flex: 1;
+
+      display: flex;
+      flex-flow: row nowrap;
+      overflow-x: scroll;
+      scrollbar-width: none;
+
+      color: $main-light;
+
+      .day-hourly-element {
+        min-width: 60px;
+        padding: 5px;
+        margin: 0 5px;
+        
+
+        display: flex;
+        flex-flow: column nowrap;
+        align-items: center;
+        justify-content: space-between;
+
+        background-color: $main-dark;
+        border-radius: $border-radius;
+      }
+
+      // &::after{
+      //   height: 100%;
+      //   min-width: 50px;
+      //   content: "";
+        
+      //   // position: absolute;
+      //   top: 0;
+      //   right: 0;
+        
+      //   background-image: linear-gradient(
+      //     to left,
+      //     $second-dark 30%,
+      //     transparent
+      //   );
+      // }
+    }
+
+    ///////////////////////////////////////////////////
+
+    .extra-current {
+      flex: 1;
+      display: grid;
+      grid-template: 1fr 1fr / 1fr 1fr;
+
+      div{
+        margin: 5px;
+        background-color: $main-dark;
+        border-radius: $border-radius;
+        color: $main-light;
+      }
+    }
+
+    ///////////////////////////////////////////////////
+
+    .week-weather {
+      display: flex;
+      flex-flow: column nowrap;
+      justify-content: space-between;
+      color: $main-light;
+
+      .week-day {
+        height: 35px;
+        margin: 4px 0;
+        padding: 0 10px;
+
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        justify-content: space-between;
+
+        background-color: $main-dark;
+        border-radius: $border-radius;
+      }
+    }
+
+    ///////////////////////////////////////////////////
+
+    .map-div {
+      padding: 0;
+      overflow: hidden;
+
+      .leaflet-container {
+        width: inherit;
+        height: 220px;
+      }
+    }
   }
 }

@@ -14,14 +14,16 @@ export default function Forecast() {
     // render data
     return (
       <div className="body">
-        {/* <div> */}
+        <div>
+
           <Current />
           <ExtraCurrent />
-        {/* </div> */}
-        {/* <div> */}
+        </div>
+        <div>
+
           <WeekDays />
           <Map />
-        {/* </div> */}
+        </div>
       </div>
     );
   } else if (status == "PENDING") {

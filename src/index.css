@@ -54,7 +54,7 @@
   right: 10px;
   transition: height 300ms;
   background-color: #242652;
-  background-image: linear-gradient(to bottom right, rgba(49, 175, 242, 0.3) 40%, transparent);
+  background-image: linear-gradient(to bottom right, rgba(49, 175, 242, 0.3) 25%, transparent);
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
   list-style: none;
   overflow: hidden;
@@ -79,14 +79,90 @@
 }
 
 .body {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  display: flex;
+  flex-flow: row wrap;
+  padding: 0 10px;
 }
 .body > div {
+  max-width: 50%;
+  flex: 1;
+  display: flex;
+  flex-flow: column nowrap;
+}
+.body > div > div {
+  min-width: 360px;
   margin: 10px;
+  padding: 10px;
   background-color: #283c86;
-  background-image: linear-gradient(to bottom right, rgba(49, 175, 242, 0.3) 40%, transparent);
+  background-image: linear-gradient(to bottom right, rgba(49, 175, 242, 0.3) 25%, transparent);
   border-radius: 8px;
+}
+.body > div .current {
+  flex: 1;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+}
+.body > div .current .current-info p {
+  padding: 3px;
+}
+.body > div .current .current-info p:first-child {
+  font-weight: 600;
+}
+.body > div .day-hourly {
+  flex: 1;
+  display: flex;
+  flex-flow: row nowrap;
+  overflow-x: scroll;
+  scrollbar-width: none;
+  color: #31aff2;
+}
+.body > div .day-hourly .day-hourly-element {
+  min-width: 60px;
+  padding: 5px;
+  margin: 0 5px;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #242652;
+  border-radius: 8px;
+}
+.body > div .extra-current {
+  flex: 1;
+  display: grid;
+  grid-template: 1fr 1fr/1fr 1fr;
+}
+.body > div .extra-current div {
+  margin: 5px;
+  background-color: #242652;
+  border-radius: 8px;
+  color: #31aff2;
+}
+.body > div .week-weather {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  color: #31aff2;
+}
+.body > div .week-weather .week-day {
+  height: 35px;
+  margin: 4px 0;
+  padding: 0 10px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #242652;
+  border-radius: 8px;
+}
+.body > div .map-div {
+  padding: 0;
+  overflow: hidden;
+}
+.body > div .map-div .leaflet-container {
+  width: inherit;
+  height: 220px;
 }
 
 * {
@@ -100,9 +176,10 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background-color: #242652;
-  background-image: linear-gradient(to bottom right, rgba(49, 175, 242, 0.3) 40%, transparent);
+  background-image: linear-gradient(to bottom right, rgba(49, 175, 242, 0.3) 25%, transparent);
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   color: #cae6f4;
+  overflow: hidden;
 }
 
 h1 {
