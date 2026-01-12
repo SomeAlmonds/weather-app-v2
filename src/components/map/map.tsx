@@ -1,7 +1,7 @@
 import type { LatLngTuple } from "leaflet";
 import { MapContainer, Marker, TileLayer, useMap } from "react-leaflet";
 import { useSelector } from "react-redux";
-import { selectLatLng } from "../../api/geocodingApi";
+import { selectCurrentLocation } from "../../api/forecastApi";
 
 function SetMapView({ latLng }: { latLng: LatLngTuple }) {
   // Restests the map center and view with animation
@@ -12,22 +12,18 @@ function SetMapView({ latLng }: { latLng: LatLngTuple }) {
   return null;
 }
 
-export default function Map() {
-  const mapCenter = useSelector(selectLatLng);
+export default function Map({ isPending }: { isPending: boolean }) {
+  const {latitude, longitude} = useSelector(selectCurrentLocation) ;
 
   return (
-    <div className="map-div">
-      <MapContainer
-        center={mapCenter!}
-        zoom={10}
-        scrollWheelZoom={true}
-      >
+    <div className={`map-div ${isPending ? "pending" : ""}`}>
+      <MapContainer center={[latitude, longitude]} zoom={10} scrollWheelZoom={true}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker position={mapCenter!} />
-        <SetMapView latLng={mapCenter!} />
+        <Marker position={[latitude, longitude]} />
+        <SetMapView latLng={[latitude, longitude]} />
       </MapContainer>
     </div>
   );

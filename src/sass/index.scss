@@ -16,7 +16,8 @@ body {
   background-image: $gradient-dark;
   font-family:Verdana, Geneva, Tahoma, sans-serif;
   color: $text-icons-color;
-  overflow: hidden;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 h1 {

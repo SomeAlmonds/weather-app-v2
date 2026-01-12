@@ -93,6 +93,9 @@ export default function SearchSuggestion() {
               id={`place-${i}`}
               tabIndex={-1}
               onKeyDown={(e) => handleKeyDown(e)}
+              onClick={() =>
+                dispatch(setCurrentLocation(places[i]))
+              }
             >
               <p>{place.name}</p>
               <p>{place.country}</p>

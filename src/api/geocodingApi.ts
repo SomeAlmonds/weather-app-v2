@@ -8,10 +8,8 @@ import axios from "axios";
 import type { RootStateType } from "../store";
 import { type LatLngTuple } from "leaflet";
 
-// Get locations search suggestion with name, county, latitude and longitude
+// Get search suggestion with name, county, latitude and longitude.
 // The API doesn't have options to fetch partial data about the locations so it returns some useless data in this case
-
-// the type of endpoint response data is placeObj[]
 
 // According to open meteo docs "Empty fields are not returned. E.g. admin4 will be missing if no fourth administrative level is available."
 // therefore some properties in the interface are optional to avoid possible errors
@@ -67,8 +65,8 @@ interface initialStateInterface extends EntityState<placeObj, number> {
 
 const placesAdapter = createEntityAdapter<placeObj>();
 const initialState: initialStateInterface = placesAdapter.getInitialState({
+  // latLng exists to keep fetching forecast separate from fetching location info
   latLng: null, 
-  // [15.46, 32.55] as LatLngTuple,
 });
 
 const placesSlice = createSlice({

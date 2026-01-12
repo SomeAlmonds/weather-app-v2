@@ -4,21 +4,44 @@
   display: flex;
   flex-flow: row wrap;
   padding: 0 10px;
+  justify-content: center;
+
+  // place holder styling
+  .pending{
+    position: relative;
+
+    &::after{
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      border-radius: $border-radius;
+      content: "";
+      background-color: $second-dark;
+      background-image: $gradient-dark;
+    }
+  }
+  // 
 
   & > div {
     max-width: 50%;
+    padding: 10px;
     flex: 1;
     display: flex;
     flex-flow: column nowrap;
-
+    align-items: center;
+    
     & > div {
-      min-width: 360px;
-      margin: 10px;
+      width: 100%;
+      min-width: 280px;
+      margin: 5px;
       padding: 10px;
 
       background-color: $second-dark;
       background-image: $gradient-dark;
       border-radius: $border-radius;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
     }
 
     ///////////////////////////////////////////////////
@@ -29,6 +52,18 @@
       display: flex;
       flex-flow: column nowrap;
       justify-content: space-between;
+
+      & > :first-child {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+        align-items: center;
+
+        .weather-icon {
+          width: 50%;
+          height: 4.5rem;
+        }
+      }
 
       .current-info {
         p {
@@ -57,7 +92,6 @@
         min-width: 60px;
         padding: 5px;
         margin: 0 5px;
-        
 
         display: flex;
         flex-flow: column nowrap;
@@ -66,23 +100,12 @@
 
         background-color: $main-dark;
         border-radius: $border-radius;
-      }
 
-      // &::after{
-      //   height: 100%;
-      //   min-width: 50px;
-      //   content: "";
-        
-      //   // position: absolute;
-      //   top: 0;
-      //   right: 0;
-        
-      //   background-image: linear-gradient(
-      //     to left,
-      //     $second-dark 30%,
-      //     transparent
-      //   );
-      // }
+        & > :last-child {
+          display: flex;
+          flex-flow: row nowrap;
+        }
+      }
     }
 
     ///////////////////////////////////////////////////
@@ -91,12 +114,31 @@
       flex: 1;
       display: grid;
       grid-template: 1fr 1fr / 1fr 1fr;
+      justify-content: center;
 
-      div{
+      div {
         margin: 5px;
+        padding: 3px;
         background-color: $main-dark;
         border-radius: $border-radius;
         color: $main-light;
+
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        justify-content: center;
+
+        div {
+          display: flex;
+          flex-flow: column;
+          align-items: center;
+          text-wrap: nowrap;
+        }
+
+        .weather-icon {
+          width: 30%;
+          height: 2rem;
+        }
       }
     }
 
@@ -112,6 +154,7 @@
         height: 35px;
         margin: 4px 0;
         padding: 0 10px;
+        text-wrap: nowrap;
 
         display: flex;
         flex-flow: row nowrap;
@@ -120,6 +163,10 @@
 
         background-color: $main-dark;
         border-radius: $border-radius;
+
+        *{
+          min-width: 35px;
+        }
       }
     }
 
@@ -133,6 +180,14 @@
         width: inherit;
         height: 220px;
       }
+    }
+  }
+}
+
+@media screen and (max-width: 760px) {
+  .body {
+    & > div {
+      max-width: 95%;
     }
   }
 }

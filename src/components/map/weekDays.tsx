@@ -1,11 +1,11 @@
 import { useSelector } from "react-redux";
 import { selectDaily, selectHourly } from "../../api/forecastApi";
 import { useMemo } from "react";
+import WeatherIcons from "./icons";
 
 export default function WeekDays() {
   const daily = useSelector(selectDaily);
   const hourly = useSelector(selectHourly);
-  console.log(hourly);
 
   const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
@@ -18,14 +18,17 @@ export default function WeekDays() {
 
         let conditions = [
           // get weather conditions for each day
-          hourly.weather_conditions![morningHourIndex + 24 * i],
-          hourly.weather_conditions![eveningHourIndex + 24 * i],
+          hourly.weather_codes![morningHourIndex + 24 * i],
+          hourly.weather_codes![eveningHourIndex + 24 * i],
         ];
 
         return (
           <div className="week-day" key={i}>
             <p>{days[hourly.time[morningHourIndex + 24 * i].getDay()]}</p>
-            <div>{conditions}</div>
+            <div className="week-day-conditions">
+              <WeatherIcons weather_code={conditions[0]} isDay={1} />
+              <WeatherIcons weather_code={conditions[1]} isDay={0} />
+            </div>
             <p>
               {`
             ${Math.floor(daily.max_temperature![i])}° | ${Math.floor(

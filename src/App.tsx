@@ -3,15 +3,21 @@ import Header from "./components/map/header";
 import Forecast from "./components/map/forecast";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchForecast, fetchPlaceName } from "./api/forecastApi";
-import {  selectLatLng, setLatLng } from "./api/geocodingApi";
+import {
+  fetchForecast,
+  fetchPlaceName,
+  selectCurrentLocation,
+} from "./api/forecastApi";
+import { selectLatLng, setLatLng } from "./api/geocodingApi";
 import type { AppDispatchType } from "./store";
 
 function App() {
   const dispatch = useDispatch<AppDispatchType>();
   const latlng = useSelector(selectLatLng);
+  const currentLocation = useSelector(selectCurrentLocation);
 
   useEffect(() => {
+    // set latLng to user coords or default coords
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         dispatch(
@@ -29,16 +35,23 @@ function App() {
   }, []);
 
   useEffect(() => {
+    // set current location to user location or default location
     if (latlng) {
-      dispatch(fetchForecast(latlng));
       dispatch(fetchPlaceName(latlng));
     }
   }, [latlng]);
+  useEffect(() => {
+    // fetch current location forecast
+    if (currentLocation.name != "initialState") {
+      dispatch(
+        fetchForecast([currentLocation.latitude, currentLocation.longitude])
+      );
+    }
+  }, [currentLocation]);
   return (
     <>
       <Header />
       <Forecast />
-      {/* <Map /> */}
     </>
   );
 }

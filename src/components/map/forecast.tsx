@@ -15,14 +15,12 @@ export default function Forecast() {
     return (
       <div className="body">
         <div>
-
           <Current />
           <ExtraCurrent />
         </div>
         <div>
-
           <WeekDays />
-          <Map />
+          <Map isPending={false}/>
         </div>
       </div>
     );

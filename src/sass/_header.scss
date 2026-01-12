@@ -23,12 +23,13 @@
   justify-content: space-between;
 
   .logo {
+    flex: 1;
     display: flex;
     flex-flow: row nowrap;
     p {
       color: $text-icons-color;
       font-weight: bolder;
-      font-size: 1.5rem;
+      font-size: 5vw;
       margin-right: 10px;
 
       &:last-child {
@@ -37,65 +38,75 @@
     }
   }
 
-  .search-input {
-    width: 500px;
-    height: 50px;
-    padding: 0 10px;
+  div {
+    // min-width: 250px;
+    flex: 1;
+    position: relative;
 
-    background-color: $main-dark;
-    background-image: linear-gradient(
-      to right,
-      rgba($main-light, 0.3),
-      rgba($main-light, 0.1)
-    );
+    .search-input {
+      width: 100%;
+      max-width: 500px;
+      height: 50px;
+      padding: 0 10px;
 
-    border: none;
-    border-radius: $border-radius;
+      background-color: $main-dark;
+      background-image: linear-gradient(
+        to right,
+        rgba($main-light, 0.3),
+        rgba($main-light, 0.1)
+      );
 
-    &::placeholder {
-      color: rgba($text-icons-color, 0.7);
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 1.1rem;
-    }
+      border: none;
+      border-radius: $border-radius;
 
-    &:focus {
-      outline: 1px solid $second-light;
-    }
-  }
-
-  .search-suggestions {
-    height: 0;
-    width: 500px;
-    position: absolute;
-    top: 70px;
-    right: 10px;
-    transition: height 300ms;
-
-    background-color: $main-dark;
-    background-image: $gradient-dark;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
-
-    list-style: none;
-    overflow: hidden;
-    border-radius: $border-radius;
-
-    .suggestion-li {
-      width: auto;
-      height: 30px;
-      padding: 5px;
-      display: flex;
-      flex-flow: row nowrap;
-      justify-content: space-between;
-      border-top: 1px solid rgba($second-light, 0.5);
-      cursor: pointer;
-
-      &:first-child {
-        border: none;
+      &::placeholder {
+        color: rgba($text-icons-color, 0.7);
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 1.1rem;
       }
-      &:hover,
+
       &:focus {
-        background-color: rgba($text-icons-color, 0.1);
-        outline: none;
+        outline: 1px solid $second-light;
+      }
+    }
+
+    .search-suggestions {
+      width: 100%;
+      max-width: 500px;
+      min-width: 240px;
+      height: 0;
+      position: absolute;
+      top: 52px;
+      // left: 0;
+      right: 0;
+      transition: height 300ms;
+
+      background-color: $main-dark;
+      background-image: $gradient-dark;
+      box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+
+      list-style: none;
+      overflow: hidden;
+      border-radius: $border-radius;
+
+      .suggestion-li {
+        width: inherit;
+        height: 30px;
+        padding: 5px;
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+        border-top: 1px solid rgba($second-light, 0.5);
+        cursor: pointer;
+
+        &:first-child {
+          border: none;
+        }
+        &:hover,
+        &:focus {
+          background-color: rgba($text-icons-color, 0.1);
+          outline: none;
+        }
       }
     }
   }

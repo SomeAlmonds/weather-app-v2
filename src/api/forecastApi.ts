@@ -71,7 +71,7 @@ interface WeatherDataInterface {
     apparent_temperature: Float32Array<ArrayBufferLike> | null;
     wind_speed: Float32Array<ArrayBufferLike> | null;
     wind_direction: Float32Array<ArrayBufferLike> | null;
-    weather_conditions: string[] | null;
+    weather_codes: Float32Array<ArrayBufferLike> | null;
   };
   daily: {
     time: Date[];
@@ -85,46 +85,14 @@ interface WeatherDataInterface {
 
 interface initialStateInterface
   extends EntityState<WeatherDataInterface, number> {
-  currentLocation: placeObj | null;
+  currentLocation: placeObj;
   status: "FULFILLED" | "PENDING" | "REJECTED";
   error: SerializedError | null;
 }
 
-const weatherCodes: { [key: number]: string } = {
-  0: "Clear sky",
-  1: "Mainly clear",
-  2: "Partly cloudy",
-  3: "Overcast",
-  45: "Fog",
-  48: "Rim fog",
-  51: "Light drizzle",
-  53: "Moderate drizzle",
-  55: "Dense drizzle",
-  56: "Light freezing drizzle",
-  57: "Dense freezing drizzle",
-  61: "Slight rain",
-  63: "Moderate rain",
-  65: "Heavy rain",
-  66: "Light freezing rain",
-  67: "Heavy freezing rain",
-  71: "Slight snow fall",
-  73: "Moderate snow fall",
-  75: "Heavy snow fall",
-  77: "Snow grains",
-  80: "Slight rain shower",
-  81: "Moderate rain shower",
-  82: "Heavy rain shower",
-  85: "Slight snow shower",
-  86: "Heavy snow shower",
-  95: "Thunderstorm",
-  96: "Thunderstorm with slight hail",
-  99: "Thunderstorm with heavy hail",
-};
-weatherCodes[9];
-
 const forecastAdapter = createEntityAdapter<WeatherDataInterface>();
 const initialState: initialStateInterface = forecastAdapter.getInitialState({
-  currentLocation: null,
+  currentLocation: { id: 0, name: "initialState", latitude: 0, longitude: 0, country: "" },
   status: "PENDING",
   error: null,
 });
@@ -182,12 +150,7 @@ const forecastSlice = createSlice({
           wind_speed: hourly.variables(3)!.valuesArray(),
           wind_direction: hourly.variables(4)!.valuesArray(),
           // get weather conditions array by using weather code float32array values as index in weathercodes obj
-          weather_conditions: Array.from(
-            { length: hourly.variables(5)!.valuesArray()!.length },
-            (_, i) => {
-              return weatherCodes[hourly.variables(5)!.valuesArray()![i]];
-            }
-          ),
+          weather_codes: hourly.variables(5)!.valuesArray(),
         },
         daily: {
           time: Array.from(
