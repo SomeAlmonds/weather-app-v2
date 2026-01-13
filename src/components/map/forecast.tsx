@@ -20,7 +20,7 @@ export default function Forecast() {
         </div>
         <div>
           <WeekDays />
-          <Map isPending={false}/>
+          <Map isPending={false} />
         </div>
       </div>
     );
@@ -29,11 +29,18 @@ export default function Forecast() {
     return <Placeholder />;
   } else if (status == "REJECTED") {
     // render error message
+    alert(`Error: ${error!.message}`);
     return (
-      <>
-        <h2>Error: {error!.code}</h2>
-        <h3>{error!.message}</h3>
-      </>
+      <div className="body">
+        <div>
+          <Current />
+          <ExtraCurrent />
+        </div>
+        <div>
+          <WeekDays />
+          <Map isPending={false} />
+        </div>
+      </div>
     );
   }
 }

@@ -1,5 +1,5 @@
 import type { LatLngTuple } from "leaflet";
-import { MapContainer, Marker, TileLayer, useMap } from "react-leaflet";
+import { MapContainer, TileLayer, useMap } from "react-leaflet";
 import { useSelector } from "react-redux";
 import { selectCurrentLocation } from "../../api/forecastApi";
 
@@ -22,7 +22,6 @@ export default function Map({ isPending }: { isPending: boolean }) {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker position={[latitude, longitude]} />
         <SetMapView latLng={[latitude, longitude]} />
       </MapContainer>
     </div>

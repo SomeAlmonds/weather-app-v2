@@ -51,7 +51,6 @@ export const fetchPlaceName = createAsyncThunk(
     const res = await fetch(
       `http://api.geonames.org/findNearbyPlaceNameJSON?lat=${latlng[0]}&lng=${latlng[1]}&username=a1mohanad`
     ).then((res) => res.json());
-    // console.log(res.geonames[0], typeof(res));
 
     return res.geonames[0];
   }
@@ -149,7 +148,6 @@ const forecastSlice = createSlice({
           apparent_temperature: hourly.variables(2)!.valuesArray(),
           wind_speed: hourly.variables(3)!.valuesArray(),
           wind_direction: hourly.variables(4)!.valuesArray(),
-          // get weather conditions array by using weather code float32array values as index in weathercodes obj
           weather_codes: hourly.variables(5)!.valuesArray(),
         },
         daily: {
@@ -227,10 +225,6 @@ export const selectHourly = (state: RootStateType) =>
   state.forecast.entities[0].hourly;
 export const selecUtcOffsetMinutes = (state: RootStateType) =>
   state.forecast.entities[0].utcOffsetSeconds / 60;
-
-export const { selectAll: selectForecast } = forecastAdapter.getSelectors(
-  (state: RootStateType) => state.forecast
-);
 
 export const selectCurrentLocation = (state: RootStateType) =>
   state.forecast.currentLocation;

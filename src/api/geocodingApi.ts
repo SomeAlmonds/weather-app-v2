@@ -6,7 +6,6 @@ import {
 } from "@reduxjs/toolkit";
 import axios from "axios";
 import type { RootStateType } from "../store";
-import { type LatLngTuple } from "leaflet";
 
 // Get search suggestion with name, county, latitude and longitude.
 // The API doesn't have options to fetch partial data about the locations so it returns some useless data in this case
@@ -60,27 +59,16 @@ export const fetchPlaces = createAsyncThunk(
 // this is a list of codes to filter out any un-wanted results such as airports parks unpopulated places etc
 const feature_codes = ["PPL", "CST", "LK", "SEA"];
 interface initialStateInterface extends EntityState<placeObj, number> {
-  latLng: LatLngTuple | null;
 }
 
 const placesAdapter = createEntityAdapter<placeObj>();
 const initialState: initialStateInterface = placesAdapter.getInitialState({
-  // latLng exists to keep fetching forecast separate from fetching location info
-  latLng: null, 
 });
 
 const placesSlice = createSlice({
   name: "Places",
   initialState,
   reducers: {
-    setLatLng: {
-      reducer: (state, action: { type: string; payload: LatLngTuple }) => {
-        state.latLng = action.payload;
-      },
-      prepare: (latLng: LatLngTuple) => {
-        return { payload: latLng };
-      },
-    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchPlaces.fulfilled, (state, { payload }) => {
@@ -102,8 +90,5 @@ const placesSlice = createSlice({
 export const { selectAll: selectAllPlaces } = placesAdapter.getSelectors(
   (state: RootStateType) => state.places
 );
-export const selectLatLng = (state: RootStateType) => state.places.latLng;
-
-export const { setLatLng } = placesSlice.actions;
 
 export default placesSlice.reducer;

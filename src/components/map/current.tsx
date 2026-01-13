@@ -50,8 +50,6 @@ export default function Current() {
   const UtcHour = new Date().getUTCHours();
   const utcMinute = new Date().getUTCMinutes();
 
-  console.log(hourly);
-
   const hourOffset = Math.floor(timeOffset / 60) || 0;
   const minuteOffset = timeOffset % 60 || 0;
 
@@ -108,9 +106,9 @@ export default function Current() {
           } GMT+${hourOffset}:${
             minuteOffset < 10 ? "0" + minuteOffset : minuteOffset
           }`}</p>
-          <p className="min-max">{`Min: ${Math.floor(
+          <p className="min-max">{`Low: ${Math.floor(
             daily.min_temperature![0]
-          )}° Max: ${Math.floor(daily.max_temperature![0])}°`}</p>
+          )}° High: ${Math.floor(daily.max_temperature![0])}°`}</p>
         </div>
       </div>
       <div className="day-hourly">{hourlyArray}</div>

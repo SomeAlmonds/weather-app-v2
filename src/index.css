@@ -1,34 +1,21 @@
 .header {
   width: 100vw;
-  height: 80px;
+  height: 60px;
   padding: 10px 20px;
   background-color: #242652;
   background-image: linear-gradient(to right, rgba(49, 175, 242, 0.3), transparent);
   box-shadow: 1px 0 4px rgba(0, 0, 0, 0.4);
-  z-index: 99;
-}
-.header * {
-  transition: 300ms;
-}
-.header {
+  z-index: 999;
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
   justify-content: space-between;
 }
 .header .logo {
-  flex: 1;
-  display: flex;
-  flex-flow: row nowrap;
-}
-.header .logo p {
   color: #cae6f4;
   font-weight: bolder;
-  font-size: 5vw;
+  font-size: 4vw;
   margin-right: 10px;
-}
-.header .logo p:last-child {
-  font-weight: 300;
 }
 .header div {
   flex: 1;
@@ -36,8 +23,7 @@
 }
 .header div .search-input {
   width: 100%;
-  max-width: 500px;
-  height: 50px;
+  height: 45px;
   padding: 0 10px;
   background-color: #242652;
   background-image: linear-gradient(to right, rgba(49, 175, 242, 0.3), rgba(49, 175, 242, 0.1));
@@ -54,7 +40,6 @@
 }
 .header div .search-suggestions {
   width: 100%;
-  max-width: 500px;
   min-width: 240px;
   height: 0;
   position: absolute;
@@ -67,6 +52,7 @@
   list-style: none;
   overflow: hidden;
   border-radius: 8px;
+  z-index: 999;
 }
 .header div .search-suggestions .suggestion-li {
   width: inherit;
@@ -77,6 +63,7 @@
   justify-content: space-between;
   border-top: 1px solid rgba(134, 199, 234, 0.5);
   cursor: pointer;
+  overflow: hidden;
 }
 .header div .search-suggestions .suggestion-li:first-child {
   border: none;
@@ -86,6 +73,11 @@
   outline: none;
 }
 
+@media screen and (max-width: 425px) {
+  .header .logo {
+    font-size: 1.3rem;
+  }
+}
 .body {
   display: flex;
   flex-flow: row wrap;
@@ -105,9 +97,11 @@
   content: "";
   background-color: #283c86;
   background-image: linear-gradient(to bottom right, rgba(49, 175, 242, 0.3) 25%, transparent);
+  animation: placeholder-animation 3s linear infinite;
 }
 .body > div {
   max-width: 50%;
+  min-height: calc(100vh - 65px);
   padding: 10px;
   flex: 1;
   display: flex;
@@ -197,6 +191,7 @@
   height: 2rem;
 }
 .body > div .week-weather {
+  flex: 1;
   display: flex;
   flex-flow: column nowrap;
   justify-content: space-between;
@@ -231,10 +226,29 @@
     max-width: 95%;
   }
 }
+@keyframes placeholder-animation {
+  0% {
+    filter: brightness(1);
+  }
+  25% {
+    filter: brightness(0.8);
+  }
+  75% {
+    filter: brightness(1.2);
+  }
+  100% {
+    filter: brightness(1);
+  }
+}
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #283c86 transparent;
 }
 
 body {
@@ -243,14 +257,14 @@ body {
   min-height: 100vh;
   background-color: #242652;
   background-image: linear-gradient(to bottom right, rgba(49, 175, 242, 0.3) 25%, transparent);
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
   color: #cae6f4;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
 }
 
 h1 {
-  font-size: 3.2em;
+  font-size: 4rem;
   line-height: 1.1;
 }
 

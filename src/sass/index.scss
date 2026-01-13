@@ -8,42 +8,28 @@
   box-sizing: border-box;
 }
 
+html {
+  scrollbar-width: thin;
+  scrollbar-color: $second-dark transparent;
+}
+
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
   background-color: $main-dark;
   background-image: $gradient-dark;
-  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
   color: $text-icons-color;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
 }
 
 h1 {
-  font-size: 3.2em;
+  font-size: 4rem;
   line-height: 1.1;
 }
 
-.leaflet-container{
+.leaflet-container {
   z-index: 0;
 }
-
-// button {
-//   border-radius: 8px;
-//   border: 1px solid transparent;
-//   padding: 0.6em 1.2em;
-//   font-size: 1em;
-//   font-weight: 500;
-//   font-family: inherit;
-//   background-color: #1a1a1a;
-//   cursor: pointer;
-//   transition: border-color 0.25s;
-// }
-// button:hover {
-//   border-color: #646cff;
-// }
-// button:focus,
-// button:focus-visible {
-//   outline: 4px auto -webkit-focus-ring-color;
-// }

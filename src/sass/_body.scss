@@ -7,10 +7,10 @@
   justify-content: center;
 
   // place holder styling
-  .pending{
+  .pending {
     position: relative;
 
-    &::after{
+    &::after {
       position: absolute;
       top: 0;
       left: 0;
@@ -20,18 +20,21 @@
       content: "";
       background-color: $second-dark;
       background-image: $gradient-dark;
+
+      animation: placeholder-animation 3s linear infinite;
     }
   }
-  // 
+  //
 
   & > div {
     max-width: 50%;
+    min-height: calc(100vh - 65px);
     padding: 10px;
     flex: 1;
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
-    
+
     & > div {
       width: 100%;
       min-width: 280px;
@@ -145,6 +148,7 @@
     ///////////////////////////////////////////////////
 
     .week-weather {
+      flex: 1;
       display: flex;
       flex-flow: column nowrap;
       justify-content: space-between;
@@ -164,7 +168,7 @@
         background-color: $main-dark;
         border-radius: $border-radius;
 
-        *{
+        * {
           min-width: 35px;
         }
       }
@@ -189,5 +193,20 @@
     & > div {
       max-width: 95%;
     }
+  }
+}
+
+@keyframes placeholder-animation {
+  0% {
+    filter: brightness(1);
+  }
+  25% {
+    filter: brightness(0.8);
+  }
+  75% {
+    filter: brightness(1.2);
+  }
+  100% {
+    filter: brightness(1);
   }
 }

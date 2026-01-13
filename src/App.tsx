@@ -1,31 +1,29 @@
 import "../node_modules/leaflet/dist/leaflet.css";
 import Header from "./components/map/header";
 import Forecast from "./components/map/forecast";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchForecast,
   fetchPlaceName,
   selectCurrentLocation,
 } from "./api/forecastApi";
-import { selectLatLng, setLatLng } from "./api/geocodingApi";
 import type { AppDispatchType } from "./store";
+import type { LatLngTuple } from "leaflet";
 
 function App() {
   const dispatch = useDispatch<AppDispatchType>();
-  const latlng = useSelector(selectLatLng);
+  const [latlng, setLatLng ] = useState(null as LatLngTuple | null);
   const currentLocation = useSelector(selectCurrentLocation);
 
   useEffect(() => {
     // set latLng to user coords or default coords
     navigator.geolocation.getCurrentPosition(
       (pos) => {
-        dispatch(
           setLatLng([
             Number(pos.coords.latitude.toFixed(2)),
             Number(pos.coords.longitude.toFixed(2)),
           ])
-        );
       },
       (err) => {
         console.warn(err);

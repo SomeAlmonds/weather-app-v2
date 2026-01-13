@@ -1,8 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import {
-  fetchPlaces,
-  selectAllPlaces,
-} from "../../api/geocodingApi";
+import { fetchPlaces, selectAllPlaces } from "../../api/geocodingApi";
 import { setCurrentLocation } from "../../api/forecastApi";
 import { useDispatch, useSelector } from "react-redux";
 import { type AppDispatchType } from "../../store";
@@ -34,7 +31,7 @@ export default function SearchSuggestion() {
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key == "Enter") {
-      // set latitude and longitude to use in forecast and map api
+      // set current location to fetch forecast
       dispatch(setCurrentLocation(places[focusedPlace.current || 0]));
 
       // reset
@@ -43,7 +40,7 @@ export default function SearchSuggestion() {
       setSearch("");
       document
         .getElementsByClassName("search-suggestions")[0]
-        .setAttribute("style", "0");
+        .setAttribute("style", "height: 0px");
     } else if (e.key == "ArrowDown") {
       // set focus on next element in locations list
 
@@ -93,9 +90,14 @@ export default function SearchSuggestion() {
               id={`place-${i}`}
               tabIndex={-1}
               onKeyDown={(e) => handleKeyDown(e)}
-              onClick={() =>
-                dispatch(setCurrentLocation(places[i]))
-              }
+              onClick={() => {
+                dispatch(setCurrentLocation(places[i]));
+                focusedPlace.current = null;
+                setSearch("");
+                document
+                  .getElementsByClassName("search-suggestions")[0]
+                  .setAttribute("style", "height: 0px");
+              }}
             >
               <p>{place.name}</p>
               <p>{place.country}</p>
