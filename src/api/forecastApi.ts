@@ -45,16 +45,17 @@ export const fetchForecast = createAsyncThunk(
 );
 
 // fetch location details from latitude and longitude
-// the geonames service is only available in HTTP so a work around is to connect to the service on the back end
-// and from the backend getting the resources over HTTPS (I might use the backend of the previous weather app)
+
+// the geonames service is only available in HTTP which is cousing issues in vercel so a work around is to proxy the request through the back end
+// and getting the resources over HTTPS (I'll proxy do this on the backend of the last weather app for the sake of finishing this project as soon as possible)
 export const fetchPlaceName = createAsyncThunk(
   "Places/fetchPlaceName",
   async (latlng: LatLngTuple) => {
     const res = await fetch(
-      `http://api.geonames.org/findNearbyPlaceNameJSON?lat=${latlng[0]}&lng=${latlng[1]}&username=a1mohanad`
+      `http://weather-app-backend-pi.vercel.app/proxy/geonames?lat=${latlng[0]}&lng=${latlng[1]}`
     ).then((res) => res.json());
 
-    return res.geonames[0];
+    return res;
   }
 );
 
@@ -93,7 +94,13 @@ interface initialStateInterface
 
 const forecastAdapter = createEntityAdapter<WeatherDataInterface>();
 const initialState: initialStateInterface = forecastAdapter.getInitialState({
-  currentLocation: { id: 0, name: "initialState", latitude: 0, longitude: 0, country: "" },
+  currentLocation: {
+    id: 0,
+    name: "initialState",
+    latitude: 0,
+    longitude: 0,
+    country: "",
+  },
   status: "PENDING",
   error: null,
 });
