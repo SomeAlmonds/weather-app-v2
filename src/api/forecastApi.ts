@@ -45,6 +45,8 @@ export const fetchForecast = createAsyncThunk(
 );
 
 // fetch location details from latitude and longitude
+// the geonames service is only available in HTTP so a work around is to connect to the service on the back end
+// and from the backend getting the resources over HTTPS (I might use the backend of the previous weather app)
 export const fetchPlaceName = createAsyncThunk(
   "Places/fetchPlaceName",
   async (latlng: LatLngTuple) => {
