@@ -6,6 +6,15 @@ export default function () {
   const hourly = useSelector(selectHourly);
   const daily = useSelector(selectDaily);
 
+  let suntime = [
+    daily.sunrise[0].getHours(),
+    daily.sunset[0].getHours() > 12
+      ? daily.sunset[0].getHours() - 12
+      : daily.sunset[0].getHours(),
+  ];
+
+  // if(sunset > 12) sunset =- 12;
+
   const UtcHour = new Date().getUTCHours();
 
   const nowIndex = hourly.time.findIndex((i) => i.getUTCHours() == UtcHour);
@@ -22,7 +31,7 @@ export default function () {
       <div>
         <div>
           <p>Sun time:</p>
-          <p>{`${daily.sunrise[0].getHours()}AM - ${daily.sunset[0].getHours()}PM`}</p>
+          <p>{`${suntime[0]}AM - ${suntime[1]}PM`}</p>
         </div>
         <WeatherIcons weather_code={102} isDay={1} />
       </div>
