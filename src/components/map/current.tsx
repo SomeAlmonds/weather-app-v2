@@ -75,13 +75,13 @@ export default function Current() {
             />
             <p>{Math.floor(hourly.temperature![nowIndex + i])}°</p>
             <div>
-              <p>{hourly.relative_humidity![nowIndex + i]}%</p>
+              <p>{Math.floor(hourly.relative_humidity![nowIndex + i])}%</p>
               <WeatherIcons weather_code={100} isDay={1} />
             </div>
           </div>
         );
       }),
-    [hourly]
+    [hourly],
   );
 
   return (
@@ -107,7 +107,7 @@ export default function Current() {
             minuteOffset < 10 ? "0" + minuteOffset : minuteOffset
           }`}</p>
           <p className="min-max">{`Low: ${Math.floor(
-            daily.min_temperature![0]
+            daily.min_temperature![0],
           )}° High: ${Math.floor(daily.max_temperature![0])}°`}</p>
         </div>
       </div>
